@@ -42,8 +42,8 @@ quantum-walk-backtracking/
 │   ├── extended_abstract.tex                  # Clean extended abstract (LaTeX source)
 │   └── figures/                               # Reproducible SVG visualizations generated from benchmarks
 │       ├── quantum_vs_classical_scaling.svg
-│       ├── phase_estimation_spectrum.svg
-│       └── power_law_runtime_separation.svg
+│       ├── qpe_phase_spectrum.svg
+│       └── power_law_separation.svg
 ├── src/
 │   └── quantum_backtracking/
 │       ├── __init__.py                        # Public package API
@@ -98,11 +98,11 @@ Rather than relying on $s$-qubit QPE, recent QSVT formulations ([Gilyén et al.,
 
 ### Exact QPE Phase Spectrum: SAT vs. UNSAT Separation
 
-![Exact QPE Phase Spectrum](docs/figures/phase_estimation_spectrum.svg)
+![Exact QPE Phase Spectrum](docs/figures/qpe_phase_spectrum.svg)
 
 ### Heavy-Tailed Power-Law Runtime Separation ($\beta = -1.75$)
 
-![Power-Law Runtime Separation](docs/figures/power_law_runtime_separation.svg)
+![Power-Law Runtime Separation](docs/figures/power_law_separation.svg)
 
 ## Quickstart
 

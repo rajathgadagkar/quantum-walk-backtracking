@@ -41,6 +41,7 @@ from quantum_backtracking import (
 
 def _svg_header(width: int, height: int) -> str:
     return (
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
         f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {width} {height}" '
         f'width="{width}" height="{height}" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">\n'
         f'  <rect width="{width}" height="{height}" rx="12" fill="#0f172a"/>\n'
@@ -419,9 +420,9 @@ def main() -> None:
     generate_qpe_spectrum_svg(
         sat_spec.phase_probabilities,
         unsat_spec.phase_probabilities,
-        figures_dir / "phase_estimation_spectrum.svg",
+        figures_dir / "qpe_phase_spectrum.svg",
     )
-    generate_power_law_svg(power_law_data, beta, figures_dir / "power_law_runtime_separation.svg")
+    generate_power_law_svg(power_law_data, beta, figures_dir / "power_law_separation.svg")
 
     print("Benchmarks completed successfully.")
     for rec in benchmark_records:
