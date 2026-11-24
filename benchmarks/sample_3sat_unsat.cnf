@@ -1,0 +1,19 @@
+c Sample Unsatisfiable 3-SAT Benchmark (DIMACS CNF format)
+c Overconstrained 5-variable 3-SAT core with no satisfying assignment
+p cnf 5 16
+1 2 3 0
+1 2 -3 0
+1 -2 3 0
+1 -2 -3 0
+-1 2 3 0
+-1 2 -3 0
+-1 -2 3 0
+-1 -2 -3 0
+2 4 5 0
+-2 4 -5 0
+3 -4 5 0
+-3 -4 -5 0
+1 4 -5 0
+-1 -4 5 0
+2 -3 4 0
+-2 3 -4 0

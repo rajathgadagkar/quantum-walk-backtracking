@@ -1,0 +1,102 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 420" width="920" height="420" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="920" height="420" rx="12" fill="#0f172a"/>
+  <text x="460" y="34" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="700">Exact QPE Phase Spectrum of W = R_B R_A on Satisfiable vs. Unsatisfiable 3-SAT Trees</text>
+  <text x="460" y="54" text-anchor="middle" fill="#94a3b8" font-size="12">Algorithm 2 distinguishes eigenvalue-1 probability >= 1/2 (SAT) from <= 1/4 (UNSAT) using threshold 3/8</text>
+  <text x="247.5" y="81" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Satisfiable 3-SAT (Marked Vertex Exists)</text>
+  <line x1="65" y1="345.0" x2="430" y2="345.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="57" y="349.0" text-anchor="end" fill="#94a3b8" font-size="10">0.00</text>
+  <line x1="65" y1="282.5" x2="430" y2="282.5" stroke="#1e293b" stroke-width="1"/>
+  <text x="57" y="286.5" text-anchor="end" fill="#94a3b8" font-size="10">0.25</text>
+  <line x1="65" y1="251.2" x2="430" y2="251.2" stroke="#facc15" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="57" y="255.2" text-anchor="end" fill="#facc15" font-size="10">3/8</text>
+  <line x1="65" y1="220.0" x2="430" y2="220.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="57" y="224.0" text-anchor="end" fill="#94a3b8" font-size="10">0.50</text>
+  <line x1="65" y1="157.5" x2="430" y2="157.5" stroke="#1e293b" stroke-width="1"/>
+  <text x="57" y="161.5" text-anchor="end" fill="#94a3b8" font-size="10">0.75</text>
+  <line x1="65" y1="95.0" x2="430" y2="95.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="57" y="99.0" text-anchor="end" fill="#94a3b8" font-size="10">1.00</text>
+  <line x1="65" y1="95" x2="65" y2="345" stroke="#475569" stroke-width="1.5"/>
+  <line x1="65" y1="345" x2="430" y2="345" stroke="#475569" stroke-width="1.5"/>
+  <rect x="66.4" y="172.9" width="8.6" height="172.1" rx="2" fill="#38bdf8"/>
+  <rect x="77.8" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="89.2" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="100.6" y="314.4" width="8.6" height="30.6" rx="2" fill="#34d399"/>
+  <rect x="112.0" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="123.4" y="344.4" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="134.8" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="146.2" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="157.6" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="169.0" y="344.1" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="180.4" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="191.8" y="344.8" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="203.2" y="343.7" width="8.6" height="1.3" rx="2" fill="#34d399"/>
+  <rect x="214.6" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="226.1" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="237.5" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="248.9" y="335.5" width="8.6" height="9.5" rx="2" fill="#34d399"/>
+  <rect x="260.3" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="271.7" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="283.1" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="294.5" y="343.7" width="8.6" height="1.3" rx="2" fill="#34d399"/>
+  <rect x="305.9" y="344.8" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="317.3" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="328.7" y="344.1" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="340.1" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="351.5" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="362.9" y="344.9" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="374.3" y="344.4" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="385.7" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="397.2" y="314.4" width="8.6" height="30.6" rx="2" fill="#34d399"/>
+  <rect x="408.6" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <rect x="420.0" y="345.0" width="8.6" height="1.0" rx="2" fill="#34d399"/>
+  <text x="247.5" y="371" text-anchor="middle" fill="#cbd5e1" font-size="11">Ancilla Phase Index j (0 .. 31)  |  Pr[j=0] = 0.6886</text>
+  <text x="687.5" y="81" text-anchor="middle" fill="#e2e8f0" font-size="13" font-weight="600">Unsatisfiable 3-SAT (No Marked Vertex)</text>
+  <line x1="505" y1="345.0" x2="870" y2="345.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="497" y="349.0" text-anchor="end" fill="#94a3b8" font-size="10">0.00</text>
+  <line x1="505" y1="282.5" x2="870" y2="282.5" stroke="#1e293b" stroke-width="1"/>
+  <text x="497" y="286.5" text-anchor="end" fill="#94a3b8" font-size="10">0.25</text>
+  <line x1="505" y1="251.2" x2="870" y2="251.2" stroke="#facc15" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="497" y="255.2" text-anchor="end" fill="#facc15" font-size="10">3/8</text>
+  <line x1="505" y1="220.0" x2="870" y2="220.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="497" y="224.0" text-anchor="end" fill="#94a3b8" font-size="10">0.50</text>
+  <line x1="505" y1="157.5" x2="870" y2="157.5" stroke="#1e293b" stroke-width="1"/>
+  <text x="497" y="161.5" text-anchor="end" fill="#94a3b8" font-size="10">0.75</text>
+  <line x1="505" y1="95.0" x2="870" y2="95.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="497" y="99.0" text-anchor="end" fill="#94a3b8" font-size="10">1.00</text>
+  <line x1="505" y1="95" x2="505" y2="345" stroke="#475569" stroke-width="1.5"/>
+  <line x1="505" y1="345" x2="870" y2="345" stroke="#475569" stroke-width="1.5"/>
+  <rect x="506.4" y="342.0" width="8.6" height="3.0" rx="2" fill="#38bdf8"/>
+  <rect x="517.8" y="336.6" width="8.6" height="8.4" rx="2" fill="#f43f5e"/>
+  <rect x="529.2" y="244.6" width="8.6" height="100.4" rx="2" fill="#f43f5e"/>
+  <rect x="540.6" y="341.6" width="8.6" height="3.4" rx="2" fill="#f43f5e"/>
+  <rect x="552.0" y="343.9" width="8.6" height="1.1" rx="2" fill="#f43f5e"/>
+  <rect x="563.4" y="344.4" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="574.8" y="344.6" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="586.2" y="344.7" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="597.6" y="344.8" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="609.0" y="344.8" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="620.4" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="631.8" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="643.2" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="654.6" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="666.1" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="677.5" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="688.9" y="329.3" width="8.6" height="15.7" rx="2" fill="#f43f5e"/>
+  <rect x="700.3" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="711.7" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="723.1" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="734.5" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="745.9" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="757.3" y="344.9" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="768.7" y="344.8" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="780.1" y="344.8" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="791.5" y="344.7" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="802.9" y="344.6" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="814.3" y="344.4" width="8.6" height="1.0" rx="2" fill="#f43f5e"/>
+  <rect x="825.7" y="343.9" width="8.6" height="1.1" rx="2" fill="#f43f5e"/>
+  <rect x="837.2" y="341.6" width="8.6" height="3.4" rx="2" fill="#f43f5e"/>
+  <rect x="848.6" y="244.6" width="8.6" height="100.4" rx="2" fill="#f43f5e"/>
+  <rect x="860.0" y="336.6" width="8.6" height="8.4" rx="2" fill="#f43f5e"/>
+  <text x="687.5" y="371" text-anchor="middle" fill="#cbd5e1" font-size="11">Ancilla Phase Index j (0 .. 31)  |  Pr[j=0] = 0.0121</text>
+  <text x="460" y="400" text-anchor="middle" fill="#facc15" font-size="11">Dashed line: Chernoff acceptance threshold 3/8 (0.375)  |  Blue bar: zero-phase bin j = 0 (eigenvalue 1)</text>
+</svg>

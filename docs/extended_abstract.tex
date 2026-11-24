@@ -1,0 +1,80 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb}
+\usepackage{hyperref}
+\usepackage{parskip}
+\usepackage{titlesec}
+\usepackage{microtype}
+
+\titlespacing{\section}{0pt}{10pt}{4pt}
+
+\hypersetup{
+    colorlinks=true,
+    linkcolor=blue,
+    citecolor=blue,
+    urlcolor=blue
+}
+
+\title{\textbf{Quantum Walk Speedup of Backtracking Algorithms}\\[0.3em]
+\large Extended Abstract}
+
+\author{Rajath Gadagkar\\\texttt{rajathgadagkar@gmail.com}}
+
+\date{}
+
+\begin{document}
+
+\maketitle
+\vspace{-1em}
+\hrule
+\vspace{0.8em}
+
+\noindent\textbf{Abstract.} This extended abstract surveys the quantum walk speedup of classical backtracking algorithms due to Montanaro~\cite{montanaro2015}. We describe the core quantum algorithm, its complexity guarantees, the key technique based on quantum walks and electrical network theory, and connections to the DPLL algorithm for SAT solving. We also outline the principal open problems identified in this area---particularly concerning depth dependence, multi-solution search, and the tightness of known bounds---and propose directions for further study.
+
+\vspace{0.5em}
+\hrule
+
+\section{Introduction and Motivation}
+
+Constraint satisfaction problems (CSPs) are among the most practically important problems in computer science. A CSP with $n$ variables over a domain of size $d$ asks whether there exists an assignment satisfying a given predicate $P$. Grover's algorithm~\cite{grover1997} provides an $O(\sqrt{d^n})$ query algorithm, quadratically better than the classical $\Omega(d^n)$ lower bound. However, in practice, algorithms exploit structure via \textbf{backtracking}: they recursively extend partial assignments, pruning branches whenever a partial assignment is certified to not extend to any solution.
+
+The backtracking tree can be much smaller than $d^n$ in practice, and the DPLL algorithm~\cite{davis1960,davis1962}---which underpins many of the fastest SAT solvers~\cite{een2003,lynce2003}---is a canonical example. A fundamental question is: can quantum computation provide a generic speedup over \emph{any} classical backtracking algorithm, without knowledge of the tree structure in advance? Montanaro~\cite{montanaro2015} answered this affirmatively, yielding a near-quadratic quantum speedup applicable to any algorithm fitting this framework.
+
+\section{Main Results}
+
+Let $T$ be the number of vertices in the backtracking tree explored by a classical algorithm on a CSP with $n$ variables. Montanaro's main results establish the following.
+
+\textbf{Detection (Theorem 1).} There exists a bounded-error quantum algorithm that detects whether a solution exists using $O(\sqrt{T}\cdot n \cdot \log(1/\delta))$ evaluations of $P$ and the branching heuristic $h$, where $\delta$ is the failure probability.
+
+\textbf{Search (Theorem 2).} A solution can be found (or non-existence certified) using $O(\sqrt{T} \cdot n^{3/2} \cdot \log n \cdot \log(1/\delta))$ evaluations. When a unique solution is promised, this improves to $O(\sqrt{T} \cdot n \cdot \log^3 n \cdot \log(1/\delta))$.
+
+All complexity bounds count evaluations of the oracles $P$ (the predicate) and $h$ (the branching heuristic), with $O(1)$ auxiliary operations per evaluation. Since $T$ is typically exponential in $n$, these results represent a near-quadratic quantum speedup over the classical $O(T)$ complexity. The algorithm is instance-adaptive: its runtime depends on $T$, the size of the backtracking tree produced by the \emph{same} heuristic $h$, so the quantum algorithm directly inherits whatever structural advantage $h$ provides on a given instance, without needing to know $T$ in advance.
+
+\section{Techniques}
+
+The quantum algorithm is built on a discrete-time quantum walk on the backtracking tree, exploiting a deep connection---due to Belovs~\cite{belovs2013,belovs2013b}---between quantum walk complexity and \textbf{effective electrical resistance} of the underlying graph.
+
+The walk operates on a Hilbert space spanned by tree vertices, without a coin space, using \emph{diffusion operators} $D_x$ at each vertex $x$. These operators perform a reflection about the equal superposition of $x$ and its children, modified appropriately for the root. A marked vertex (a solution) changes its diffusion operator to the identity, breaking the symmetry. A key eigenvector analysis shows that if any marked vertex exists, the initial state $|\text{root}\rangle$ has $\Omega(1)$ overlap with an eigenvalue-$1$ eigenvector of the walk, enabling phase estimation~\cite{cleve1998} to detect it using $O(\sqrt{Tn})$ evaluations of $P$ and $h$.
+
+\section{Known Bounds and Open Problems}
+
+A lower bound of $\Omega(\sqrt{Tn})$ for detecting a marked vertex in a tree of $T$ vertices and depth $n$ is known~\cite{aaronson2005}, matching the detection complexity up to logarithmic factors. Several important gaps remain, including depth dependence in search, multi-solution search scaling with $k$ marked vertices~\cite{krovi2015}, average-case exponential speedups under natural heavy-tailed distributions~\cite{cocco2001}, and integration with modern SAT solver heuristics such as CDCL and restarts. For the full theoretical treatment, QSVT analysis~\cite{gilyen2019}, and empirical simulation results, see the companion report \texttt{docs/report.tex}.
+
+\begin{thebibliography}{99}
+\bibitem{montanaro2015} A.~Montanaro. Quantum walk speedup of backtracking algorithms. \emph{arXiv:1509.02374}, 2015; \emph{Theory of Computing}, 14(15):1--24, 2018.
+\bibitem{grover1997} L.~Grover. Quantum mechanics helps in searching for a needle in a haystack. \emph{Phys.\ Rev.\ Lett.}, 79(2):325--328, 1997.
+\bibitem{davis1960} M.~Davis and H.~Putnam. A computing procedure for quantification theory. \emph{J.\ ACM}, 7(3):201--215, 1960.
+\bibitem{davis1962} M.~Davis, G.~Logemann, and D.~Loveland. A machine program for theorem proving. \emph{Comm.\ ACM}, 5(7):394--397, 1962.
+\bibitem{een2003} N.~E\'{e}n and N.~S\"{o}rensson. An extensible SAT-solver. In \emph{Proc.\ SAT 2003}, pp.\ 502--518, 2003.
+\bibitem{lynce2003} I.~Lynce and J.~P.~Marques-Silva. An overview of backtrack search satisfiability algorithms. \emph{Ann.\ Math.\ Artif.\ Intell.}, 37:307--326, 2003.
+\bibitem{belovs2013} A.~Belovs. Quantum walks and electric networks. \emph{arXiv:1302.3143}, 2013.
+\bibitem{belovs2013b} A.~Belovs, A.~M.~Childs, S.~Jeffery, R.~Kothari, and F.~Magniez. Time-efficient quantum walks for 3-distinctness. In \emph{Proc.\ ICALP 2013}, pp.\ 105--122, 2013.
+\bibitem{cleve1998} R.~Cleve, A.~Ekert, C.~Macchiavello, and M.~Mosca. Quantum algorithms revisited. \emph{Proc.\ R.\ Soc.\ Lond.\ A}, 454(1969):339--354, 1998.
+\bibitem{aaronson2005} S.~Aaronson and A.~Ambainis. Quantum search of spatial regions. \emph{Theory of Computing}, 1(1):47--79, 2005.
+\bibitem{krovi2015} H.~Krovi, F.~Magniez, M.~Ozols, and J.~Roland. Quantum walks can find a marked element on any graph. \emph{Algorithmica}, 74(2):851--907, 2016.
+\bibitem{cocco2001} S.~Cocco and R.~Monasson. Statistical physics analysis of the computational complexity of solving random satisfiability problems using backtrack algorithms. \emph{Eur.\ Phys.\ J.\ B}, 22:505--531, 2001.
+\bibitem{gilyen2019} A.~Gily\'{e}n, Y.~Su, G.~H.~Low, and N.~Wiebe. Quantum singular value transformation and beyond: exponential improvements for quantum matrix arithmetics. In \emph{Proc.\ STOC 2019}, pp.\ 193--204, 2019.
+\end{thebibliography}
+
+\end{document}

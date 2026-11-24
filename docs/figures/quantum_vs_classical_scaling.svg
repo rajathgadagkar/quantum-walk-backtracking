@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 920 460" width="920" height="460" font-family="Inter, -apple-system, BlinkMacSystemFont, Segoe UI, Helvetica, Arial, sans-serif">
+  <rect width="920" height="460" rx="12" fill="#0f172a"/>
+  <text x="460" y="34" text-anchor="middle" fill="#f8fafc" font-size="18" font-weight="700">Query Complexity Scaling Across CSP Benchmarks (Log10 Scale)</text>
+  <text x="460" y="54" text-anchor="middle" fill="#94a3b8" font-size="12">Classical Backtracking Tree Size T vs. Grover, Montanaro Quantum Walk, and Belovs Effective Resistance</text>
+  <line x1="85" y1="365.0" x2="885" y2="365.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="75" y="369.0" text-anchor="end" fill="#cbd5e1" font-size="11">10^0</text>
+  <line x1="85" y1="220.0" x2="885" y2="220.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="75" y="224.0" text-anchor="end" fill="#cbd5e1" font-size="11">10^1</text>
+  <line x1="85" y1="75.0" x2="885" y2="75.0" stroke="#1e293b" stroke-width="1"/>
+  <text x="75" y="79.0" text-anchor="end" fill="#cbd5e1" font-size="11">10^2</text>
+  <line x1="85" y1="75" x2="85" y2="365" stroke="#475569" stroke-width="1.5"/>
+  <line x1="85" y1="365" x2="885" y2="365" stroke="#475569" stroke-width="1.5"/>
+  <rect x="94.2" y="170.3" width="21.7" height="194.7" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="118.9" y="234.1" width="21.7" height="130.9" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="143.6" y="211.3" width="21.7" height="153.7" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="168.4" y="236.2" width="21.7" height="128.8" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="142.1" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">3-SAT (DIMACS SAT)</text>
+  <text x="142.1" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=22)</text>
+  <rect x="208.5" y="242.5" width="21.7" height="122.5" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="233.2" y="255.8" width="21.7" height="109.2" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="257.9" y="253.0" width="21.7" height="112.0" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="282.6" y="253.0" width="21.7" height="112.0" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="256.4" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">3-SAT (DIMACS UNSAT)</text>
+  <text x="256.4" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(UNSAT, T=7)</text>
+  <rect x="322.8" y="159.8" width="21.7" height="205.2" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="347.5" y="190.4" width="21.7" height="174.6" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="372.2" y="197.0" width="21.7" height="168.0" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="396.9" y="225.5" width="21.7" height="139.5" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="370.7" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Rand 3-SAT n=8</text>
+  <text x="370.7" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=26)</text>
+  <rect x="437.1" y="122.5" width="21.7" height="242.5" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="461.8" y="146.8" width="21.7" height="218.2" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="486.5" y="171.3" width="21.7" height="193.7" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="511.2" y="171.3" width="21.7" height="193.7" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="485.0" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">Rand 3-SAT n=10</text>
+  <text x="485.0" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=47)</text>
+  <rect x="551.4" y="186.6" width="21.7" height="178.4" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="576.1" y="190.4" width="21.7" height="174.6" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="600.8" y="232.1" width="21.7" height="132.9" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="625.5" y="254.0" width="21.7" height="111.0" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="599.3" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">4-Queens</text>
+  <text x="599.3" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=17)</text>
+  <rect x="665.6" y="113.8" width="21.7" height="251.2" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="690.4" y="111.6" width="21.7" height="253.4" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="715.1" y="188.7" width="21.7" height="176.3" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="739.8" y="255.5" width="21.7" height="109.5" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="713.6" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">5-Queens</text>
+  <text x="713.6" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=54)</text>
+  <rect x="779.9" y="103.1" width="21.7" height="261.9" rx="3" fill="#f97316" opacity="0.92"/>
+  <rect x="804.6" y="157.5" width="21.7" height="207.5" rx="3" fill="#94a3b8" opacity="0.92"/>
+  <rect x="829.4" y="177.6" width="21.7" height="187.4" rx="3" fill="#38bdf8" opacity="0.92"/>
+  <rect x="854.1" y="238.5" width="21.7" height="126.5" rx="3" fill="#34d399" opacity="0.92"/>
+  <text x="827.9" y="387" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">3-Coloring (K4-e+)</text>
+  <text x="827.9" y="403" text-anchor="middle" fill="#94a3b8" font-size="10">(SAT, T=64)</text>
+  <rect x="105" y="426" width="12" height="12" rx="2" fill="#f97316"/>
+  <text x="123" y="436" fill="#e2e8f0" font-size="11">Classical Tree (T)</text>
+  <rect x="300" y="426" width="12" height="12" rx="2" fill="#94a3b8"/>
+  <text x="318" y="436" fill="#e2e8f0" font-size="11">Grover (sqrt(d^n))</text>
+  <rect x="495" y="426" width="12" height="12" rx="2" fill="#38bdf8"/>
+  <text x="513" y="436" fill="#e2e8f0" font-size="11">Montanaro (sqrt(T·n))</text>
+  <rect x="690" y="426" width="12" height="12" rx="2" fill="#34d399"/>
+  <text x="708" y="436" fill="#e2e8f0" font-size="11">Belovs (sqrt(T·R_eff))</text>
+</svg>

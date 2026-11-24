@@ -1,0 +1,263 @@
+{
+  "benchmarks": [
+    {
+      "short_name": "3-SAT (DIMACS SAT)",
+      "name": "sample_3sat_sat",
+      "num_vars": 6,
+      "domain_size": 2,
+      "classical_T": 22,
+      "actual_depth": 6,
+      "num_marked": 5,
+      "satisfiable": true,
+      "effective_resistance": 2.7143,
+      "grover_sqrt_dn": 8.0,
+      "montanaro_sqrt_Tn": 11.49,
+      "belovs_sqrt_TReff": 7.73,
+      "qpe_zero_phase_prob": 0.68854,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 6,
+      "search_found": true,
+      "search_assignment": "10100*",
+      "eigenvector_walk_residual": 7.874940695906408e-17
+    },
+    {
+      "short_name": "3-SAT (DIMACS UNSAT)",
+      "name": "sample_3sat_unsat",
+      "num_vars": 5,
+      "domain_size": 2,
+      "classical_T": 7,
+      "actual_depth": 2,
+      "num_marked": 0,
+      "satisfiable": false,
+      "effective_resistance": null,
+      "grover_sqrt_dn": 5.66,
+      "montanaro_sqrt_Tn": 5.92,
+      "belovs_sqrt_TReff": 5.92,
+      "qpe_zero_phase_prob": 0.01207,
+      "qpe_detected": false,
+      "qpe_ancilla_qubits": 5,
+      "search_found": false,
+      "search_assignment": null,
+      "eigenvector_walk_residual": null
+    },
+    {
+      "short_name": "Rand 3-SAT n=8",
+      "name": "Random-3SAT(n=8,m=34,seed=7)",
+      "num_vars": 8,
+      "domain_size": 2,
+      "classical_T": 26,
+      "actual_depth": 7,
+      "num_marked": 2,
+      "satisfiable": true,
+      "effective_resistance": 3.2308,
+      "grover_sqrt_dn": 16.0,
+      "montanaro_sqrt_Tn": 14.42,
+      "belovs_sqrt_TReff": 9.17,
+      "qpe_zero_phase_prob": 0.71288,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 6,
+      "search_found": true,
+      "search_assignment": "0101101*",
+      "eigenvector_walk_residual": 7.626171613858803e-17
+    },
+    {
+      "short_name": "Rand 3-SAT n=10",
+      "name": "Random-3SAT(n=10,m=42,seed=19)",
+      "num_vars": 10,
+      "domain_size": 2,
+      "classical_T": 47,
+      "actual_depth": 10,
+      "num_marked": 1,
+      "satisfiable": true,
+      "effective_resistance": 10.0,
+      "grover_sqrt_dn": 32.0,
+      "montanaro_sqrt_Tn": 21.68,
+      "belovs_sqrt_TReff": 21.68,
+      "qpe_zero_phase_prob": 0.50181,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 7,
+      "search_found": true,
+      "search_assignment": "0000100010",
+      "eigenvector_walk_residual": 0.0
+    },
+    {
+      "short_name": "4-Queens",
+      "name": "4-Queens",
+      "num_vars": 4,
+      "domain_size": 4,
+      "classical_T": 17,
+      "actual_depth": 4,
+      "num_marked": 2,
+      "satisfiable": true,
+      "effective_resistance": 2.0,
+      "grover_sqrt_dn": 16.0,
+      "montanaro_sqrt_Tn": 8.25,
+      "belovs_sqrt_TReff": 5.83,
+      "qpe_zero_phase_prob": 0.66692,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 6,
+      "search_found": true,
+      "search_assignment": "1302",
+      "eigenvector_walk_residual": 0.0
+    },
+    {
+      "short_name": "5-Queens",
+      "name": "5-Queens",
+      "num_vars": 5,
+      "domain_size": 5,
+      "classical_T": 54,
+      "actual_depth": 5,
+      "num_marked": 10,
+      "satisfiable": true,
+      "effective_resistance": 0.6,
+      "grover_sqrt_dn": 55.9,
+      "montanaro_sqrt_Tn": 16.43,
+      "belovs_sqrt_TReff": 5.69,
+      "qpe_zero_phase_prob": 0.8929,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 7,
+      "search_found": true,
+      "search_assignment": "02413",
+      "eigenvector_walk_residual": 3.8192833126881124e-17
+    },
+    {
+      "short_name": "3-Coloring (K4-e+)",
+      "name": "6-Vertex-3Coloring",
+      "num_vars": 6,
+      "domain_size": 3,
+      "classical_T": 64,
+      "actual_depth": 6,
+      "num_marked": 18,
+      "satisfiable": true,
+      "effective_resistance": 0.8667,
+      "grover_sqrt_dn": 27.0,
+      "montanaro_sqrt_Tn": 19.6,
+      "belovs_sqrt_TReff": 7.45,
+      "qpe_zero_phase_prob": 0.87379,
+      "qpe_detected": true,
+      "qpe_ancilla_qubits": 7,
+      "search_found": true,
+      "search_assignment": "012012",
+      "eigenvector_walk_residual": 7.803810474071324e-17
+    }
+  ],
+  "qpe_spectrum_sat_p0": 0.688557386292101,
+  "qpe_spectrum_unsat_p0": 0.012068878273619934,
+  "power_law_beta": -1.75,
+  "power_law_separation": [
+    {
+      "log2_M": 6.0,
+      "expected_classical": 4.1468,
+      "expected_quantum": 1.6723,
+      "speedup_ratio": 2.4797
+    },
+    {
+      "log2_M": 10.0,
+      "expected_classical": 9.8155,
+      "expected_quantum": 1.9888,
+      "speedup_ratio": 4.9353
+    },
+    {
+      "log2_M": 14.0,
+      "expected_classical": 21.3184,
+      "expected_quantum": 2.1625,
+      "speedup_ratio": 9.8581
+    },
+    {
+      "log2_M": 18.0,
+      "expected_classical": 44.3727,
+      "expected_quantum": 2.2517,
+      "speedup_ratio": 19.7062
+    },
+    {
+      "log2_M": 22.0,
+      "expected_classical": 90.4946,
+      "expected_quantum": 2.2966,
+      "speedup_ratio": 39.4029
+    },
+    {
+      "log2_M": 26.0,
+      "expected_classical": 182.7417,
+      "expected_quantum": 2.3192,
+      "speedup_ratio": 78.7967
+    },
+    {
+      "log2_M": 30.0,
+      "expected_classical": 367.2368,
+      "expected_quantum": 2.3304,
+      "speedup_ratio": 157.5845
+    }
+  ],
+  "naive_bt_proposition_8": [
+    {
+      "num_vars": 20,
+      "num_clauses": 80,
+      "alpha": 4.0,
+      "k": 3,
+      "exact_expected_vertices": 4748.522606648131,
+      "lower_exponent_c_prime": 0.4442880509283929,
+      "upper_exponent_c": 0.45318532896391517,
+      "lower_bound_vertices": 473.0211949700168,
+      "upper_bound_vertices": 11237.426055166336
+    },
+    {
+      "num_vars": 20,
+      "num_clauses": 120,
+      "alpha": 6.0,
+      "k": 3,
+      "exact_expected_vertices": 1557.4865322084258,
+      "lower_exponent_c_prime": 0.36606992583207804,
+      "upper_exponent_c": 0.3700242716256435,
+      "lower_bound_vertices": 159.94127867137072,
+      "upper_bound_vertices": 3548.030891205194
+    },
+    {
+      "num_vars": 20,
+      "num_clauses": 200,
+      "alpha": 10.0,
+      "k": 3,
+      "exact_expected_vertices": 487.61423124077686,
+      "lower_exponent_c_prime": 0.2851960038540458,
+      "upper_exponent_c": 0.2866195683397294,
+      "lower_bound_vertices": 52.12559628468644,
+      "upper_bound_vertices": 1116.4545372723287
+    },
+    {
+      "num_vars": 20,
+      "num_clauses": 400,
+      "alpha": 20.0,
+      "k": 3,
+      "exact_expected_vertices": 143.99730783144503,
+      "lower_exponent_c_prime": 0.20231474927236281,
+      "upper_exponent_c": 0.2026706403937837,
+      "lower_bound_vertices": 16.52175439793857,
+      "upper_bound_vertices": 348.67285248355756
+    }
+  ],
+  "varying_density_3sat": [
+    {
+      "n": 10.0,
+      "expected_classical_lb": 2.335259324004116,
+      "expected_quantum_ub": 48.187729840006824,
+      "speedup_ratio": 0.048461700348982145
+    },
+    {
+      "n": 20.0,
+      "expected_classical_lb": 2.7642114964469267,
+      "expected_quantum_ub": 145.7748377789169,
+      "speedup_ratio": 0.01896219909117065
+    },
+    {
+      "n": 30.0,
+      "expected_classical_lb": 2.9974062101363512,
+      "expected_quantum_ub": 273.6613297268275,
+      "speedup_ratio": 0.010952976853282134
+    },
+    {
+      "n": 40.0,
+      "expected_classical_lb": 3.171323845152307,
+      "expected_quantum_ub": 425.24574030511224,
+      "speedup_ratio": 0.00745762636652608
+    }
+  ]
+}
