@@ -159,7 +159,7 @@ def generate_qpe_spectrum_svg(
     )
     lines.append(
         '  <text x="460" y="54" text-anchor="middle" fill="#94a3b8" font-size="12">'
-        "Algorithm 2 distinguishes eigenvalue-1 probability >= 1/2 (SAT) from <= 1/4 (UNSAT) using threshold 3/8</text>\n"
+        "Algorithm 2 distinguishes eigenvalue-1 probability ≥ 1/2 (SAT) from ≤ 1/4 (UNSAT) using threshold 3/8</text>\n"
     )
 
     panels = [
@@ -252,7 +252,7 @@ def generate_power_law_svg(
     )
     lines.append(
         '  <text x="460" y="54" text-anchor="middle" fill="#94a3b8" font-size="12">'
-        "For Pr[T = t] ~ t^beta with -2 < beta < -3/2, E[T] grows exponentially in log2(M) while E[sqrt(T)] converges to O(1)</text>\n"
+        "For Pr[T = t] ~ t^β with -2 &lt; β &lt; -3/2, E[T] grows exponentially in log2(M) while E[√T] converges to O(1)</text>\n"
     )
 
     for yt in range(int(y_min), int(y_max) + 1):
