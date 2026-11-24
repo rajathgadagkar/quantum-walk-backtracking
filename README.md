@@ -4,7 +4,7 @@
 
 > A modular, zero-dependency Python implementation and complete theoretical study of Ashley Montanaro's discrete-time quantum walk speedup for classical backtracking algorithms ([Theory of Computing 14(15), 2018](https://theoryofcomputing.org/articles/v014a015/v014a015.pdf) / [arXiv:1509.02374](https://arxiv.org/abs/1509.02374)).
 
-- **Language:** Python 3.9+ (Standard Library Only — Zero External Dependencies)
+- **Language:** Python 3.10+ (Standard Library Only — Zero External Dependencies)
 - **Full Technical Report:** [docs/report.pdf](docs/report.pdf) ([LaTeX Source](docs/report.tex))
 - **Author:** Rajath Gadagkar ([rajathgadagkar@gmail.com](mailto:rajathgadagkar@gmail.com))
 - **License:** [MIT License](LICENSE)
@@ -106,7 +106,7 @@ Rather than relying on $s$-qubit QPE, recent QSVT formulations ([Gilyén et al.,
 
 ## Quickstart
 
-Zero third-party packages are required—only **Python 3.9+**.
+Zero third-party packages are required—only **Python 3.10+**.
 
 ### 1. Run the Test Suite
 ```bash
