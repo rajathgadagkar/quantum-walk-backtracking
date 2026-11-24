@@ -1,0 +1,54 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  test-and-benchmark:
+    name: Test & Verify (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Run unit test suite
+        run: python -m unittest discover -s tests -v
+
+      - name: Run reproducible benchmark suite
+        env:
+          PYTHONPATH: src
+        run: python benchmarks/run_benchmarks.py
+
+      - name: Validate SVG XML and benchmark outputs
+        run: |
+          python - <<'EOF'
+          import glob
+          import json
+          import xml.etree.ElementTree as ET
+
+          for svg_path in sorted(glob.glob("docs/figures/*.svg")):
+              ET.parse(svg_path)
+              print(f"Valid XML: {svg_path}")
+
+          with open("results/benchmark_summary.json", encoding="utf-8") as f:
+              data = json.load(f)
+
+          for rec in data["benchmarks"]:
+              assert rec["qpe_detected"] == rec["satisfiable"], f"Detection mismatch: {rec}"
+              assert rec["search_found"] == rec["satisfiable"], f"Search mismatch: {rec}"
+          print(f"Verified {len(data['benchmarks'])} benchmark instances cleanly.")
+          EOF
