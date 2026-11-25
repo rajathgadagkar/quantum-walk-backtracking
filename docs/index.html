@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quantum Walk Speedup of Backtracking Algorithms — Interactive Dashboard</title>
+  <meta name="description" content="Interactive quantum walk simulator, Belovs' electrical network analyzer, QPE phase spectrum explorer, and empirical benchmarks for Montanaro's quantum backtracking algorithm." />
+  <style>
+    :root {
+      --bg: #0b1120;
+      --surface: #111827;
+      --surface-2: #1e293b;
+      --border: #334155;
+      --text: #f1f5f9;
+      --muted: #94a3b8;
+      --accent: #38bdf8;
+      --accent-2: #34d399;
+      --warn: #f97316;
+      --danger: #f43f5e;
+      --gold: #facc15;
+      --radius: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: radial-gradient(circle at 20% 0%, #172554 0%, var(--bg) 42%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .container { max-width: 1180px; margin: 0 auto; padding: 0 24px; }
+
+    nav {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(12px);
+      background: rgba(11, 17, 32, 0.85);
+      border-bottom: 1px solid rgba(51, 65, 85, 0.6);
+    }
+    .nav-inner {
+      display: flex; align-items: center; justify-content: space-between;
+      height: 64px; gap: 16px;
+    }
+    .brand { font-weight: 700; font-size: 1.02rem; color: var(--text); letter-spacing: -0.01em; }
+    .brand span { color: var(--accent); }
+    .nav-links { display: flex; gap: 22px; font-size: 0.9rem; flex-wrap: wrap; }
+    .nav-links a { color: var(--muted); font-weight: 500; }
+    .nav-links a:hover { color: var(--text); text-decoration: none; }
+
+    .hero { padding: 64px 0 42px; text-align: center; }
+    .pill {
+      display: inline-block; padding: 5px 14px; border-radius: 999px;
+      background: rgba(56, 189, 248, 0.12); border: 1px solid rgba(56, 189, 248, 0.35);
+      color: var(--accent); font-size: 0.82rem; font-weight: 600; margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.2vw, 3.1rem); font-weight: 800;
+      line-height: 1.15; letter-spacing: -0.025em; margin-bottom: 16px;
+      background: linear-gradient(135deg, #ffffff 10%, #bae6fd 55%, #6ee7b7 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      max-width: 780px; margin: 0 auto 28px; color: var(--muted); font-size: 1.06rem;
+    }
+    .cta-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; margin-bottom: 42px; }
+    .btn {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 11px 20px; border-radius: 10px; font-weight: 600; font-size: 0.92rem;
+      border: 1px solid transparent; cursor: pointer; transition: transform 0.15s, background 0.15s;
+    }
+    .btn:hover { transform: translateY(-1px); text-decoration: none; }
+    .btn-primary { background: var(--accent); color: #082f49; }
+    .btn-primary:hover { background: #7dd3fc; }
+    .btn-secondary { background: var(--surface-2); color: var(--text); border-color: var(--border); }
+    .btn-secondary:hover { background: #293548; }
+
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px; margin-bottom: 48px;
+    }
+    .stat-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 18px 20px; text-align: left;
+    }
+    .stat-label { font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); }
+    .stat-value { font-size: 1.55rem; font-weight: 700; margin: 4px 0; color: var(--text); }
+    .stat-sub { font-size: 0.82rem; color: var(--muted); }
+
+    section { padding: 36px 0; }
+    .sec-head { margin-bottom: 22px; }
+    .sec-head h2 { font-size: 1.65rem; font-weight: 750; letter-spacing: -0.02em; margin-bottom: 6px; }
+    .sec-head p { color: var(--muted); font-size: 0.96rem; max-width: 780px; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 24px;
+    }
+    .two-col { display: grid; grid-template-columns: 1.1fr 1fr; gap: 20px; }
+    @media (max-width: 900px) { .two-col { grid-template-columns: 1fr; } }
+
+    .controls {
+      display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end;
+      margin-bottom: 20px; padding-bottom: 18px; border-bottom: 1px solid var(--border);
+    }
+    .ctrl { display: flex; flex-direction: column; gap: 6px; min-width: 170px; }
+    .ctrl label { font-size: 0.82rem; font-weight: 600; color: var(--muted); }
+    select, input[type="range"] {
+      background: var(--surface-2); color: var(--text); border: 1px solid var(--border);
+      border-radius: 8px; padding: 8px 10px; font-size: 0.9rem;
+    }
+    input[type="range"] { padding: 0; accent-color: var(--accent); cursor: pointer; }
+
+    .metrics-row {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 12px; margin-bottom: 18px;
+    }
+    .mini-metric {
+      background: var(--surface-2); border-radius: 10px; padding: 12px 14px;
+      border: 1px solid rgba(51, 65, 85, 0.7);
+    }
+    .mini-metric .k { font-size: 0.74rem; color: var(--muted); text-transform: uppercase; letter-spacing: 0.04em; }
+    .mini-metric .v { font-size: 1.18rem; font-weight: 700; margin-top: 2px; }
+
+    .badge {
+      display: inline-block; padding: 3px 10px; border-radius: 999px;
+      font-size: 0.78rem; font-weight: 700;
+    }
+    .badge-sat { background: rgba(52, 211, 153, 0.16); color: var(--accent-2); border: 1px solid rgba(52, 211, 153, 0.4); }
+    .badge-unsat { background: rgba(244, 63, 94, 0.16); color: var(--danger); border: 1px solid rgba(244, 63, 94, 0.4); }
+    .badge-warn { background: rgba(249, 115, 22, 0.16); color: var(--warn); border: 1px solid rgba(249, 115, 22, 0.4); }
+
+    .svg-box {
+      width: 100%; background: #0f172a; border: 1px solid var(--border);
+      border-radius: 12px; overflow: hidden;
+    }
+    .svg-box svg, .svg-box img { display: block; width: 100%; height: auto; }
+    .hint { font-size: 0.82rem; color: var(--muted); margin-top: 8px; }
+
+    .table-wrap { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
+    th, td { padding: 11px 14px; text-align: left; border-bottom: 1px solid var(--border); }
+    th { color: var(--muted); font-weight: 600; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.04em; }
+    tr:hover td { background: rgba(30, 41, 59, 0.45); }
+    .num { font-variant-numeric: tabular-nums; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+
+    .fig-stack { display: flex; flex-direction: column; gap: 22px; }
+    .fig-card h3 { font-size: 1.05rem; margin-bottom: 10px; }
+
+    footer {
+      margin-top: 48px; padding: 28px 0 42px;
+      border-top: 1px solid var(--border);
+      color: var(--muted); font-size: 0.88rem;
+      display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px;
+    }
+    .clickable-node { cursor: pointer; transition: transform 0.12s; }
+    .clickable-node:hover { filter: brightness(1.25); }
+  </style>
+</head>
+<body>
+  <nav>
+    <div class="container nav-inner">
+      <div class="brand"><span>QWB</span> · Quantum Walk Backtracking</div>
+      <div class="nav-links">
+        <a href="#simulator">Interactive Simulator</a>
+        <a href="#power-law">Power-Law Explorer</a>
+        <a href="#benchmarks">Benchmarks</a>
+        <a href="#figures">Figures</a>
+        <a href="#theory">Theory &amp; Report</a>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <header class="hero">
+      <div class="pill">Montanaro (2015/2018) · Belovs Electrical Networks · QSVT</div>
+      <h1>Quantum Walk Speedup of Backtracking Algorithms</h1>
+      <p>
+        Exact statevector simulation, Belovs' electrical network resistance analysis, Quantum Phase Estimation (QPE),
+        and heavy-tailed average-case complexity for accelerating classical backtracking solvers such as DPLL,
+        <em>N</em>-Queens, and Graph Coloring.
+      </p>
+      <div class="cta-row">
+        <a class="btn btn-primary" href="#simulator">Launch Interactive Simulator</a>
+        <a class="btn btn-secondary" href="report.pdf" target="_blank" rel="noopener">Read Full Report (PDF)</a>
+        <a class="btn btn-secondary" href="#benchmarks">Explore Benchmarks</a>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-label">Detection Complexity</div>
+          <div class="stat-value">O(√(T·n))</div>
+          <div class="stat-sub">Near-quadratic speedup over classical O(T)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Belovs Resistance Scale</div>
+          <div class="stat-value">O(√(T·R_eff))</div>
+          <div class="stat-sub">Adapts to parallel solution paths (R_eff ≤ n)</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Eigenvalue-1 Precision</div>
+          <div class="stat-value">&lt; 10⁻¹⁶</div>
+          <div class="stat-sub">Exact ||W|φ'⟩ − |φ'⟩||₂ residual across benchmarks</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-label">Zero Dependencies</div>
+          <div class="stat-value">16 / 16</div>
+          <div class="stat-sub">Unit tests passing on Python 3.10–3.13 CI</div>
+        </div>
+      </div>
+    </header>
+
+    <section id="simulator">
+      <div class="sec-head">
+        <h2>Interactive Quantum Walk &amp; QPE Simulator</h2>
+        <p>
+          Runs Montanaro's exact coinless quantum walk <strong>W = R<sub>B</sub> R<sub>A</sub></strong> directly in your browser.
+          Select a preset backtracking tree or <strong>click any non-root node</strong> in the tree to toggle it as a marked solution—watch
+          Belovs' effective resistance <em>R</em><sub>eff</sub>(<em>r</em>, <em>M</em>) and the exact QPE phase spectrum update live.
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="controls">
+          <div class="ctrl">
+            <label for="tree-preset">Tree Preset</label>
+            <select id="tree-preset">
+              <option value="binary3">Balanced Binary Tree (depth 3, 15 nodes)</option>
+              <option value="sat_tree">3-SAT DPLL Tree (22 nodes, 5 solutions)</option>
+              <option value="unsat_tree">3-SAT Unsatisfiable Tree (7 nodes, 0 solutions)</option>
+              <option value="queens4">4-Queens Backtracking Tree (17 nodes, 2 solutions)</option>
+              <option value="tall_thin">Unbalanced Asymmetric Tree (14 nodes)</option>
+            </select>
+          </div>
+          <div class="ctrl">
+            <label for="ancilla-slider">QPE Ancilla Qubits s: <strong id="ancilla-val">5</strong> (<span id="steps-val">32</span> walk steps)</label>
+            <input id="ancilla-slider" type="range" min="3" max="7" value="5" />
+          </div>
+          <div class="ctrl">
+            <label for="depth-slider">Root Weight n: <strong id="depth-val">4</strong></label>
+            <input id="depth-slider" type="range" min="1" max="10" value="4" />
+          </div>
+          <button id="clear-marks-btn" class="btn btn-secondary" type="button">Clear All Marks (UNSAT)</button>
+        </div>
+
+        <div class="metrics-row">
+          <div class="mini-metric">
+            <div class="k">Tree Size (T)</div>
+            <div class="v num" id="m-size">—</div>
+          </div>
+          <div class="mini-metric">
+            <div class="k">Marked Nodes |M|</div>
+            <div class="v num" id="m-marked">—</div>
+          </div>
+          <div class="mini-metric">
+            <div class="k">Effective Resistance R_eff</div>
+            <div class="v num" id="m-reff">—</div>
+          </div>
+          <div class="mini-metric">
+            <div class="k">Belovs Scale √(T·R_eff)</div>
+            <div class="v num" id="m-belovs">—</div>
+          </div>
+          <div class="mini-metric">
+            <div class="k">QPE Pr[Phase = 0]</div>
+            <div class="v num" id="m-p0">—</div>
+          </div>
+          <div class="mini-metric">
+            <div class="k">Algorithm 2 Verdict</div>
+            <div class="v" id="m-verdict">—</div>
+          </div>
+        </div>
+
+        <div class="two-col">
+          <div>
+            <div class="svg-box" id="tree-svg-container"></div>
+            <p class="hint">Click any non-root vertex to toggle marked (emerald = solution, cyan = root, slate = unmarked). Highlighted edges carry unit electrical current from root r to M.</p>
+          </div>
+          <div>
+            <div class="svg-box" id="qpe-svg-container"></div>
+            <p class="hint">Exact QPE distribution over M = 2<sup>s</sup> phase bins. Dashed yellow line marks the 3/8 (0.375) Chernoff threshold separating SAT (≥ 1/2) from UNSAT (≤ 1/4).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="power-law">
+      <div class="sec-head">
+        <h2>Heavy-Tailed Average-Case Separation Explorer</h2>
+        <p>
+          Explore Montanaro Section 4: when classical backtracking tree sizes follow a power-law distribution
+          Pr[<em>T</em> = <em>t</em>] ∝ <em>t</em><sup><em>β</em></sup> with <strong>−2 &lt; <em>β</em> &lt; −3/2</strong>,
+          the expected classical runtime E[<em>T</em>] = Ω(<em>M</em><sup><em>β</em>+2</sup>) grows exponentially in log<sub>2</sub>(<em>M</em>)
+          while the expected quantum runtime E[√<em>T</em>] converges to <em>O</em>(1).
+        </p>
+      </div>
+
+      <div class="card">
+        <div class="controls">
+          <div class="ctrl" style="min-width: 280px;">
+            <label for="beta-slider">Power-Law Exponent β: <strong id="beta-val">-1.75</strong></label>
+            <input id="beta-slider" type="range" min="-2.10" max="-1.35" step="0.05" value="-1.75" />
+          </div>
+          <div class="ctrl">
+            <label>Asymptotic Regime</label>
+            <div id="beta-regime"></div>
+          </div>
+          <div class="ctrl">
+            <label>Separation at M = 2³⁰</label>
+            <div class="num" id="beta-ratio" style="font-size: 1.15rem; font-weight: 700; color: var(--accent);">—</div>
+          </div>
+        </div>
+        <div class="svg-box" id="powerlaw-svg-container"></div>
+      </div>
+    </section>
+
+    <section id="benchmarks">
+      <div class="sec-head">
+        <h2>Empirical Statevector Benchmarks</h2>
+        <p>
+          Reproducible results generated by <code>benchmarks/run_benchmarks.py</code> across DIMACS 3-SAT, random 3-SAT near the
+          phase transition (<em>α</em> ≈ 4.2), <em>N</em>-Queens, and Graph 3-Coloring. Every detection and binary-search run matches ground truth.
+        </p>
+      </div>
+
+      <div class="card table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Benchmark</th>
+              <th>Status</th>
+              <th>Tree Size T</th>
+              <th>R_eff(r, M)</th>
+              <th>Grover √(dⁿ)</th>
+              <th>Montanaro √(Tn)</th>
+              <th>Belovs √(T·R_eff)</th>
+              <th>QPE Pr[0ˢ]</th>
+              <th>||W|φ'⟩−|φ'⟩||₂</th>
+            </tr>
+          </thead>
+          <tbody id="benchmark-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="figures">
+      <div class="sec-head">
+        <h2>Generated Publication Figures</h2>
+        <p>All three vector figures are generated directly from the zero-dependency Python benchmark pipeline and validated in CI.</p>
+      </div>
+      <div class="fig-stack">
+        <div class="card fig-card">
+          <h3>Query Complexity Scaling Across CSP Benchmarks</h3>
+          <div class="svg-box"><img src="figures/quantum_vs_classical_scaling.svg" alt="Query Complexity Scaling Across CSP Benchmarks" /></div>
+        </div>
+        <div class="card fig-card">
+          <h3>Exact QPE Phase Spectrum: SAT vs. UNSAT Separation</h3>
+          <div class="svg-box"><img src="figures/qpe_phase_spectrum.svg" alt="Exact QPE Phase Spectrum" /></div>
+        </div>
+        <div class="card fig-card">
+          <h3>Heavy-Tailed Power-Law Runtime Separation (β = −1.75)</h3>
+          <div class="svg-box"><img src="figures/power_law_separation.svg" alt="Power-Law Runtime Separation" /></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="theory">
+      <div class="sec-head">
+        <h2>Technical Report &amp; Complexity Landscape</h2>
+        <p>
+          The companion report completes the full theoretical study—from Belovs' electrical networks and first-principles QPE proofs
+          to Jarret–Wan effective-resistance estimation (2018), Ambainis–Kokainis tree-size estimation (2017), and QSVT reformulations (Gilyén et al., 2019; Aoki &amp; Kawachi, 2026).
+        </p>
+      </div>
+
+      <div class="card table-wrap" style="margin-bottom: 18px;">
+        <table>
+          <thead>
+            <tr>
+              <th>Algorithm</th>
+              <th>Query Complexity</th>
+              <th>Key Requirement / Advance</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Classical Backtracking (Alg. 1)</td><td class="num">O(T)</td><td>Explores all T valid partial assignments</td></tr>
+            <tr><td>Grover's Unstructured Search</td><td class="num">O(√(dⁿ))</td><td>Ignores partial-assignment pruning</td></tr>
+            <tr><td>Montanaro Detection (Theorem 1)</td><td class="num">O(√(Tn) log(1/δ))</td><td>Decides existence via QPE on W = R_B R_A</td></tr>
+            <tr><td>Montanaro General Search (Theorem 2)</td><td class="num">O(√T · n³/² log n log(1/δ))</td><td>Unknown T via exponential doubling + subtree descent</td></tr>
+            <tr><td>Montanaro Unique-Solution (Sec. 2.2)</td><td class="num">O(√(Tn) log³ n log(1/δ))</td><td>Samples path vertices from QPE-prepared |φ'⟩</td></tr>
+            <tr><td>Jarret &amp; Wan (Phys. Rev. A, 2018)</td><td class="num">Õ(√(T · R_max))</td><td>Amplitude estimation of effective resistance for unknown k ≥ 1</td></tr>
+            <tr><td>QSVT Reformulation (Aoki &amp; Kawachi, 2026)</td><td class="num">Deg. O(√(Tn)) filter</td><td>Singular-value-1 polynomial filter on D_T = Π_A Π_B</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="cta-row" style="justify-content: flex-start; margin-bottom: 0;">
+        <a class="btn btn-primary" href="report.pdf" target="_blank" rel="noopener">Download Full Report (PDF)</a>
+        <a class="btn btn-secondary" href="report.tex" target="_blank" rel="noopener">Report LaTeX Source</a>
+        <a class="btn btn-secondary" href="extended_abstract.tex" target="_blank" rel="noopener">Extended Abstract (LaTeX)</a>
+      </div>
+    </section>
+
+    <footer>
+      <div>© 2026 <strong>Rajath Gadagkar</strong> · <a href="mailto:rajathgadagkar@gmail.com">rajathgadagkar@gmail.com</a></div>
+      <div>MIT License · Quantum Walk Speedup of Backtracking Algorithms</div>
+    </footer>
+  </main>
+
+  <script>
+    const BENCHMARKS = [
+      { name: "3-SAT (DIMACS SAT)", sat: true, T: 22, reff: "2.7143", grover: "8.00", mont: "11.49", belovs: "7.73", p0: "0.6885", res: "7.87e-17" },
+      { name: "3-SAT (DIMACS UNSAT)", sat: false, T: 7, reff: "∞", grover: "5.66", mont: "5.92", belovs: "5.92", p0: "0.0121", res: "—" },
+      { name: "Random 3-SAT (n=8)", sat: true, T: 26, reff: "3.2308", grover: "16.00", mont: "14.42", belovs: "9.17", p0: "0.7129", res: "7.63e-17" },
+      { name: "Random 3-SAT (n=10)", sat: true, T: 47, reff: "10.0000", grover: "32.00", mont: "21.68", belovs: "21.68", p0: "0.5018", res: "0.00e+00" },
+      { name: "4-Queens", sat: true, T: 17, reff: "2.0000", grover: "16.00", mont: "8.25", belovs: "5.83", p0: "0.6669", res: "0.00e+00" },
+      { name: "5-Queens", sat: true, T: 54, reff: "0.6000", grover: "55.90", mont: "16.43", belovs: "5.69", p0: "0.8929", res: "3.82e-17" },
+      { name: "3-Coloring (6-vertex)", sat: true, T: 64, reff: "0.8667", grover: "27.00", mont: "19.60", belovs: "7.45", p0: "0.8738", res: "7.80e-17" }
+    ];
+
+    const tbody = document.getElementById("benchmark-tbody");
+    BENCHMARKS.forEach(b => {
+      const tr = document.createElement("tr");
+      tr.innerHTML = `
+        <td><strong>${b.name}</strong></td>
+        <td><span class="badge ${b.sat ? "badge-sat" : "badge-unsat"}">${b.sat ? "SAT" : "UNSAT"}</span></td>
+        <td class="num">${b.T}</td>
+        <td class="num">${b.reff}</td>
+        <td class="num">${b.grover}</td>
+        <td class="num">${b.mont}</td>
+        <td class="num" style="color: var(--accent-2); font-weight: 700;">${b.belovs}</td>
+        <td class="num" style="color: ${b.sat ? "var(--accent)" : "var(--danger)"}; font-weight: 700;">${b.p0}</td>
+        <td class="num">${b.res}</td>
+      `;
+      tbody.appendChild(tr);
+    });
+
+    function makePreset(key) {
+      if (key === "binary3") {
+        const parents = [null, 0, 0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6, 6];
+        return { parents, marked: new Set([10]), defaultN: 3 };
+      }
+      if (key === "unsat_tree") {
+        const parents = [null, 0, 0, 1, 1, 2, 2];
+        return { parents, marked: new Set(), defaultN: 5 };
+      }
+      if (key === "queens4") {
+        const parents = [null, 0, 1, 1, 3, 0, 5, 6, 7, 0, 9, 10, 11, 0, 13, 14, 13];
+        return { parents, marked: new Set([8, 12]), defaultN: 4 };
+      }
+      if (key === "sat_tree") {
+        const parents = [null, 0, 0, 1, 1, 2, 2, 3, 3, 4, 5, 5, 6, 7, 8, 9, 10, 11, 12, 13, 16, 18];
+        return { parents, marked: new Set([14, 15, 17, 19, 21]), defaultN: 6 };
+      }
+      const parents = [null, 0, 0, 1, 1, 3, 5, 6, 7, 2, 9, 9, 10, 11];
+      return { parents, marked: new Set([8]), defaultN: 6 };
+    }
+
+    function buildTreeStruct(parents, markedSet) {
+      const nodes = parents.map((p, id) => ({ id, parent: p, children: [], depth: 0, marked: markedSet.has(id) }));
+      nodes.forEach(n => {
+        if (n.parent !== null) {
+          nodes[n.parent].children.push(n.id);
+          n.depth = nodes[n.parent].depth + 1;
+        }
+      });
+      return nodes;
+    }
+
+    function computeResistanceAndFlow(nodes) {
+      const res = new Array(nodes.length).fill(Infinity);
+      function dfs(u) {
+        if (nodes[u].marked) { res[u] = 0; return 0; }
+        let g = 0;
+        for (const c of nodes[u].children) {
+          const rc = dfs(c);
+          if (Number.isFinite(rc)) g += 1 / (1 + rc);
+        }
+        res[u] = g > 0 ? 1 / g : Infinity;
+        return res[u];
+      }
+      const rEff = dfs(0);
+      const flows = new Map();
+      if (Number.isFinite(rEff)) {
+        function dist(u, curr) {
+          if (nodes[u].marked || curr <= 0) return;
+          let tot = 0;
+          const b = [];
+          for (const c of nodes[u].children) {
+            if (Number.isFinite(res[c])) {
+              const g = 1 / (1 + res[c]);
+              b.push([c, g]);
+              tot += g;
+            }
+          }
+          for (const [c, g] of b) {
+            const f = curr * (g / tot);
+            flows.set(`${u}-${c}`, f);
+            dist(c, f);
+          }
+        }
+        dist(0, 1.0);
+      }
+      return { rEff, flows };
+    }
+
+    function applyDiffusion(re, im, nodes, u, depthParam) {
+      const node = nodes[u];
+      if (node.marked) return;
+      const ch = node.children;
+      if (u === 0) {
+        if (ch.length === 0) { re[0] = -re[0]; im[0] = -im[0]; return; }
+        const sqn = Math.sqrt(depthParam);
+        const normSq = 1 + ch.length * depthParam;
+        let inR = re[0], inI = im[0];
+        for (const c of ch) { inR += sqn * re[c]; inI += sqn * im[c]; }
+        const fR = (2 * inR) / normSq, fI = (2 * inI) / normSq;
+        re[0] -= fR; im[0] -= fI;
+        for (const c of ch) { re[c] -= fR * sqn; im[c] -= fI * sqn; }
+      } else {
+        const dx = ch.length + 1;
+        let inR = re[u], inI = im[u];
+        for (const c of ch) { inR += re[c]; inI += im[c]; }
+        const fR = (2 * inR) / dx, fI = (2 * inI) / dx;
+        re[u] -= fR; im[u] -= fI;
+        for (const c of ch) { re[c] -= fR; im[c] -= fI; }
+      }
+    }
+
+    function simulateQPE(nodes, depthParam, ancillaQubits) {
+      const T = nodes.length;
+      const M = 1 << ancillaQubits;
+      const even = [], odd = [];
+      for (const n of nodes) (n.depth % 2 === 0 ? even : odd).push(n.id);
+
+      const histR = [];
+      const histI = [];
+      let re = new Float64Array(T);
+      let im = new Float64Array(T);
+      re[0] = 1.0;
+
+      for (let k = 0; k < M; k++) {
+        histR.push(new Float64Array(re));
+        histI.push(new Float64Array(im));
+        if (k < M - 1) {
+          for (const u of even) applyDiffusion(re, im, nodes, u, depthParam);
+          for (const u of odd) applyDiffusion(re, im, nodes, u, depthParam);
+        }
+      }
+
+      const probs = new Array(M).fill(0);
+      const invM = 1 / M;
+      for (let j = 0; j < M; j++) {
+        let normSq = 0;
+        for (let idx = 0; idx < T; idx++) {
+          let sR = 0, sI = 0;
+          for (let k = 0; k < M; k++) {
+            const ang = (-2 * Math.PI * j * k) / M;
+            const c = Math.cos(ang), s = Math.sin(ang);
+            const hr = histR[k][idx], hi = histI[k][idx];
+            sR += c * hr - s * hi;
+            sI += c * hi + s * hr;
+          }
+          sR *= invM; sI *= invM;
+          normSq += sR * sR + sI * sI;
+        }
+        probs[j] = normSq;
+      }
+      return probs;
+    }
+
+    function renderTreeSVG(nodes, flows) {
+      const W = 540, H = 310;
+      const maxD = Math.max(1, ...nodes.map(n => n.depth));
+      const levels = Array.from({ length: maxD + 1 }, () => []);
+      nodes.forEach(n => levels[n.depth].push(n.id));
+
+      const pos = {};
+      levels.forEach((lvl, d) => {
+        const y = 38 + (d / maxD) * (H - 76);
+        lvl.forEach((id, i) => {
+          const x = ((i + 1) / (lvl.length + 1)) * (W - 40) + 20;
+          pos[id] = { x, y };
+        });
+      });
+
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">`;
+      svg += `<rect width="${W}" height="${H}" fill="#0f172a"/>`;
+      svg += `<text x="${W / 2}" y="20" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">Interactive Backtracking Tree (Click Nodes to Toggle Marked Solutions)</text>`;
+
+      nodes.forEach(n => {
+        if (n.parent === null) return;
+        const p1 = pos[n.parent], p2 = pos[n.id];
+        const f = flows.get(`${n.parent}-${n.id}`) || 0;
+        const stroke = f > 0 ? "#34d399" : "#334155";
+        const sw = f > 0 ? 1.8 + 2.8 * f : 1.5;
+        svg += `<line x1="${p1.x.toFixed(1)}" y1="${p1.y.toFixed(1)}" x2="${p2.x.toFixed(1)}" y2="${p2.y.toFixed(1)}" stroke="${stroke}" stroke-width="${sw.toFixed(2)}"/>`;
+      });
+
+      nodes.forEach(n => {
+        const { x, y } = pos[n.id];
+        const fill = n.id === 0 ? "#38bdf8" : (n.marked ? "#34d399" : "#1e293b");
+        const stroke = n.id === 0 ? "#bae6fd" : (n.marked ? "#a7f3d0" : "#64748b");
+        const txtCol = (n.id === 0 || n.marked) ? "#0f172a" : "#e2e8f0";
+        const cls = n.id === 0 ? "" : "clickable-node";
+        svg += `<g class="${cls}" data-node="${n.id}">`;
+        svg += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="13" fill="${fill}" stroke="${stroke}" stroke-width="2"/>`;
+        svg += `<text x="${x.toFixed(1)}" y="${(y + 4).toFixed(1)}" text-anchor="middle" fill="${txtCol}" font-size="10" font-weight="700">${n.id === 0 ? "r" : n.id}</text>`;
+        svg += `</g>`;
+      });
+
+      svg += `</svg>`;
+      const box = document.getElementById("tree-svg-container");
+      box.innerHTML = svg;
+      box.querySelectorAll("[data-node]").forEach(el => {
+        const nid = parseInt(el.getAttribute("data-node"), 10);
+        if (nid === 0) return;
+        el.addEventListener("click", () => {
+          if (currentState.marked.has(nid)) currentState.marked.delete(nid);
+          else currentState.marked.add(nid);
+          updateSimulator();
+        });
+      });
+    }
+
+    function renderQPESVG(probs, hasMarked) {
+      const W = 500, H = 310;
+      const padL = 48, padR = 18, padT = 42, padB = 46;
+      const pw = W - padL - padR, ph = H - padT - padB;
+      const M = probs.length;
+
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">`;
+      svg += `<rect width="${W}" height="${H}" fill="#0f172a"/>`;
+      svg += `<text x="${W / 2}" y="22" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">Exact QPE Phase Distribution (M = ${M} bins)</text>`;
+
+      [0, 0.25, 0.375, 0.5, 0.75, 1.0].forEach(t => {
+        const y = padT + ph * (1 - t);
+        const isTh = Math.abs(t - 0.375) < 1e-6;
+        svg += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="${isTh ? "#facc15" : "#1e293b"}" stroke-width="${isTh ? "1.5" : "1"}" ${isTh ? 'stroke-dasharray="5,4"' : ""}/>`;
+        svg += `<text x="${padL - 7}" y="${(y + 3.5).toFixed(1)}" text-anchor="end" fill="${isTh ? "#facc15" : "#94a3b8"}" font-size="9.5">${isTh ? "3/8" : t.toFixed(2)}</text>`;
+      });
+
+      const barW = Math.max(2, (pw / M) * 0.76);
+      probs.forEach((p, idx) => {
+        const x = padL + (idx + 0.12) * (pw / M);
+        const bh = Math.max(1.5, p * ph);
+        const y = padT + ph - bh;
+        const fill = idx === 0 ? "#38bdf8" : (hasMarked ? "#34d399" : "#f43f5e");
+        svg += `<rect x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${barW.toFixed(1)}" height="${bh.toFixed(1)}" rx="1.5" fill="${fill}"/>`;
+      });
+
+      svg += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + ph}" stroke="#475569" stroke-width="1.2"/>`;
+      svg += `<line x1="${padL}" y1="${padT + ph}" x2="${W - padR}" y2="${padT + ph}" stroke="#475569" stroke-width="1.2"/>`;
+      svg += `<text x="${W / 2}" y="${H - 14}" text-anchor="middle" fill="#cbd5e1" font-size="10.5">Phase Bin j = 0 .. ${M - 1}   |   Blue = Zero-Phase Bin (Eigenvalue 1)</text>`;
+      svg += `</svg>`;
+      document.getElementById("qpe-svg-container").innerHTML = svg;
+    }
+
+    let currentState = makePreset("binary3");
+    const presetSel = document.getElementById("tree-preset");
+    const ancillaSlider = document.getElementById("ancilla-slider");
+    const depthSlider = document.getElementById("depth-slider");
+
+    function updateSimulator() {
+      const s = parseInt(ancillaSlider.value, 10);
+      const nParam = parseInt(depthSlider.value, 10);
+      document.getElementById("ancilla-val").textContent = s;
+      document.getElementById("steps-val").textContent = 1 << s;
+      document.getElementById("depth-val").textContent = nParam;
+
+      const nodes = buildTreeStruct(currentState.parents, currentState.marked);
+      const { rEff, flows } = computeResistanceAndFlow(nodes);
+      const probs = simulateQPE(nodes, nParam, s);
+      const p0 = probs[0];
+      const detected = p0 >= 0.375;
+
+      document.getElementById("m-size").textContent = nodes.length;
+      document.getElementById("m-marked").textContent = currentState.marked.size;
+      document.getElementById("m-reff").textContent = Number.isFinite(rEff) ? rEff.toFixed(3) : "∞";
+      document.getElementById("m-belovs").textContent = Number.isFinite(rEff)
+        ? Math.sqrt(nodes.length * rEff).toFixed(2)
+        : Math.sqrt(nodes.length * nParam).toFixed(2);
+      document.getElementById("m-p0").textContent = p0.toFixed(4);
+      document.getElementById("m-verdict").innerHTML = detected
+        ? '<span class="badge badge-sat">MARKED EXISTS</span>'
+        : '<span class="badge badge-unsat">NO MARKED VERTEX</span>';
+
+      renderTreeSVG(nodes, flows);
+      renderQPESVG(probs, currentState.marked.size > 0);
+    }
+
+    presetSel.addEventListener("change", () => {
+      currentState = makePreset(presetSel.value);
+      depthSlider.value = currentState.defaultN;
+      updateSimulator();
+    });
+    ancillaSlider.addEventListener("input", updateSimulator);
+    depthSlider.addEventListener("input", updateSimulator);
+    document.getElementById("clear-marks-btn").addEventListener("click", () => {
+      currentState.marked.clear();
+      updateSimulator();
+    });
+
+    function truncatedPSeries(power, upper) {
+      const cutoff = 2048;
+      if (upper <= cutoff) {
+        let s = 0;
+        for (let t = 1; t <= upper; t++) s += Math.pow(t, power);
+        return s;
+      }
+      let head = 0;
+      for (let t = 1; t <= cutoff; t++) head += Math.pow(t, power);
+      const a = cutoff, b = upper;
+      let tail;
+      if (Math.abs(power + 1) < 1e-9) {
+        tail = Math.log(b / a) + 0.5 * (1 / b - 1 / a);
+      } else {
+        const p1 = power + 1;
+        tail = (Math.pow(b, p1) - Math.pow(a, p1)) / p1 + 0.5 * (Math.pow(b, power) - Math.pow(a, power));
+      }
+      return head + tail;
+    }
+
+    const betaSlider = document.getElementById("beta-slider");
+    function updatePowerLaw() {
+      const beta = parseFloat(betaSlider.value);
+      document.getElementById("beta-val").textContent = beta.toFixed(2);
+
+      const regimeEl = document.getElementById("beta-regime");
+      if (beta > -2.0 && beta < -1.5) {
+        regimeEl.innerHTML = '<span class="badge badge-sat">Exponential Separation (−2 &lt; β &lt; −3/2)</span>';
+      } else if (beta <= -2.0) {
+        regimeEl.innerHTML = '<span class="badge badge-warn">Both Classical &amp; Quantum Converge (β ≤ −2)</span>';
+      } else {
+        regimeEl.innerHTML = '<span class="badge badge-unsat">Both Grow; Quadratic Separation (β ≥ −3/2)</span>';
+      }
+
+      const exps = [6, 10, 14, 18, 22, 26, 30];
+      const pts = exps.map(e => {
+        const M = Math.pow(2, e);
+        const Z = truncatedPSeries(beta, M);
+        const eCl = truncatedPSeries(beta + 1, M) / Z;
+        const eQu = truncatedPSeries(beta + 0.5, M) / Z;
+        return { e, eCl, eQu };
+      });
+
+      const last = pts[pts.length - 1];
+      document.getElementById("beta-ratio").textContent = `${(last.eCl / last.eQu).toFixed(1)}×`;
+
+      const W = 960, H = 340, padL = 76, padR = 30, padT = 36, padB = 54;
+      const pw = W - padL - padR, ph = H - padT - padB;
+      const yCl = pts.map(p => Math.log10(Math.max(1, p.eCl)));
+      const yQu = pts.map(p => Math.log10(Math.max(1, p.eQu)));
+      const yMax = Math.max(2, Math.ceil(Math.max(...yCl, ...yQu) * 1.12));
+
+      const sx = e => padL + ((e - 6) / 24) * pw;
+      const sy = lv => padT + ph * (1 - lv / yMax);
+
+      let svg = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${W} ${H}">`;
+      svg += `<rect width="${W}" height="${H}" fill="#0f172a"/>`;
+      for (let t = 0; t <= yMax; t++) {
+        const y = sy(t);
+        svg += `<line x1="${padL}" y1="${y.toFixed(1)}" x2="${W - padR}" y2="${y.toFixed(1)}" stroke="#1e293b" stroke-width="1"/>`;
+        svg += `<text x="${padL - 10}" y="${(y + 4).toFixed(1)}" text-anchor="end" fill="#cbd5e1" font-size="11">10^${t}</text>`;
+      }
+      svg += `<line x1="${padL}" y1="${padT}" x2="${padL}" y2="${padT + ph}" stroke="#475569" stroke-width="1.5"/>`;
+      svg += `<line x1="${padL}" y1="${padT + ph}" x2="${W - padR}" y2="${padT + ph}" stroke="#475569" stroke-width="1.5"/>`;
+
+      const clLine = pts.map((p, i) => `${sx(p.e).toFixed(1)},${sy(yCl[i]).toFixed(1)}`).join(" ");
+      const quLine = pts.map((p, i) => `${sx(p.e).toFixed(1)},${sy(yQu[i]).toFixed(1)}`).join(" ");
+      svg += `<polyline fill="none" stroke="#f97316" stroke-width="3" points="${clLine}"/>`;
+      svg += `<polyline fill="none" stroke="#38bdf8" stroke-width="3" points="${quLine}"/>`;
+
+      pts.forEach((p, i) => {
+        svg += `<circle cx="${sx(p.e).toFixed(1)}" cy="${sy(yCl[i]).toFixed(1)}" r="4.5" fill="#f97316"/>`;
+        svg += `<circle cx="${sx(p.e).toFixed(1)}" cy="${sy(yQu[i]).toFixed(1)}" r="4.5" fill="#38bdf8"/>`;
+        svg += `<text x="${sx(p.e).toFixed(1)}" y="${padT + ph + 20}" text-anchor="middle" fill="#cbd5e1" font-size="11">2^${p.e}</text>`;
+      });
+
+      svg += `<text x="${W / 2}" y="${H - 12}" text-anchor="middle" fill="#94a3b8" font-size="11.5">Support Cutoff M = max(T)  |  Orange = Classical E[T]  ·  Blue = Quantum E[√T]</text>`;
+      svg += `</svg>`;
+      document.getElementById("powerlaw-svg-container").innerHTML = svg;
+    }
+
+    betaSlider.addEventListener("input", updatePowerLaw);
+
+    depthSlider.value = currentState.defaultN;
+    updateSimulator();
+    updatePowerLaw();
+  </script>
+</body>
+</html>
